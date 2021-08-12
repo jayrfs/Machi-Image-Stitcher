@@ -74,8 +74,8 @@ class Ui_MainWindow(object):
         for i in imagePaths:
             print(i)
 
-        if len(imagePaths)>2:
-                    chunks = [imagePaths[x:x+10] for x in range(0, len(imagePaths), 10)]
+        if len(imagePaths)>5:
+                    chunks = [imagePaths[x:x+5] for x in range(0, len(imagePaths), 5)]
                     print("\n\n\n")
                     for chunk in chunks:
                         print("\nchunk\n")
@@ -84,46 +84,50 @@ class Ui_MainWindow(object):
 
         images = []
         countter=0
-
-        for imagePath in imagePaths:
-            image = cv2.imread(imagePath)
-            image = imutils.rotate_bound(image, 90)
-            images.append(image)
-        print(len(images))
-
-        self.listWidget.addItem("[INFO] stitching images...")
-        #stitcher = cv2.createStitcher() if imutils.is_cv3() else cv2.Stitcher_create()
-
-        while len(images)>1:
+        
+        for chunk in chunks:
+            countter = countter + 1
+            print(f"chunk {countter}")
+            for imagePath in chunk:
+                image = cv2.imread(imagePath)
+                image = imutils.rotate_bound(image, 90)
+                images.append(image)
             print(len(images))
-            stitcher = cv2.Stitcher_create(mode=cv2.Stitcher_SCANS)
-            (status, stitched) = stitcher.stitch(images[0:2])
-            print("Test")
-            images[1]=stitched
-            images.pop(0)
 
-        if len(images)==1:
-            print("no more images left!")
+            self.listWidget.addItem("[INFO] stitching images...")
+            #stitcher = cv2.createStitcher() if imutils.is_cv3() else cv2.Stitcher_create()
 
-        if status == 0:
-            stitched = imutils.rotate_bound(stitched, 270)
-            cv2.imwrite("output.png", stitched)
-            self.listWidget.addItem("[INFO] image stitching success...")
-            self.listWidget.addItem("[INFO] Results are saved at screenstitch directory")
+            while len(images)>1:
+                print(len(images))
+                stitcher = cv2.Stitcher_create(mode=cv2.Stitcher_SCANS)
+                (status, stitched) = stitcher.stitch(images[0:2])
+                print("Test")
+                images[1]=stitched
+                images.pop(0)
 
-            outputDir = os.getcwd()+"\output.png"
+            if len(images)==1:
+                print("no more images left!")
 
-            pixmap = QtGui.QPixmap(outputDir)
-            pixmap = pixmap.scaled(self.result.width(), self.result.height(), QtCore.Qt.KeepAspectRatio)
-            self.result.setPixmap(pixmap)
-            self.result.setAlignment(QtCore.Qt.AlignCenter)
+            if status == 0:
+                stitched = imutils.rotate_bound(stitched, 270)
+                cv2.imwrite(".\\output\\output"+str(countter)+".png", stitched)
+                images=[]
+                self.listWidget.addItem("[INFO] image stitching success...")
+                self.listWidget.addItem("[INFO] Results are saved at screenstitch directory")
 
-        elif status == 1: 
-            self.listWidget.addItem("[INFO] image stitching failed: needs more images (1)")
-        elif status == 2: 
-            self.listWidget.addItem("[INFO] image stitching failed: not enough keypoints (2)")  
-        else:
-            self.listWidget.addItem("[INFO] image stitching failed: camera error (3)")
+                outputDir = os.getcwd()+"\output.png"
+
+                pixmap = QtGui.QPixmap(outputDir)
+                pixmap = pixmap.scaled(self.result.width(), self.result.height(), QtCore.Qt.KeepAspectRatio)
+                self.result.setPixmap(pixmap)
+                self.result.setAlignment(QtCore.Qt.AlignCenter)
+
+            elif status == 1: 
+                self.listWidget.addItem("[INFO] image stitching failed: needs more images (1)")
+            elif status == 2: 
+                self.listWidget.addItem("[INFO] image stitching failed: not enough keypoints (2)")  
+            else:
+                self.listWidget.addItem("[INFO] image stitching failed: camera error (3)")
 
 
 if __name__ == "__main__":
