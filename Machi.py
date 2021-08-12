@@ -87,7 +87,10 @@ class Ui_MainWindow(object):
             print("Test")
             images[1]=stitched
             images.pop(0)
-    
+
+        if len(images)==1:
+            print("no more images left!")
+
         if status == 0:
             stitched = imutils.rotate_bound(stitched, 270)
             cv2.imwrite("output.png", stitched)
