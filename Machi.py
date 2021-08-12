@@ -4,7 +4,7 @@ import os
 import numpy as np
 import argparse
 import imutils
-import cv2
+import cv2, re
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -67,7 +67,9 @@ class Ui_MainWindow(object):
             selectedItems.append(self.listWidget.item(i))
         for item in selectedItems:
             imagePaths.append(item.text())
-        imagePaths = sorted(list(imagePaths))
+        #imagePaths = sorted(list(imagePaths)) 
+        #natural sort images 👇
+        imagePaths.sort(key=lambda var:[int(x) if x.isdigit() else x for x in re.findall(r'[^0-9]|[0-9]+', var)])
         print("\nbefore split\n")
         for i in imagePaths:
             print(i)
