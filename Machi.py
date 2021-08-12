@@ -77,7 +77,8 @@ class Ui_MainWindow(object):
             images.append(image)
 
         self.listWidget.addItem("[INFO] stitching images...")
-        stitcher = cv2.createStitcher() if imutils.is_cv3() else cv2.Stitcher_create()
+        #stitcher = cv2.createStitcher() if imutils.is_cv3() else cv2.Stitcher_create()
+        stitcher = cv2.Stitcher_create(mode=cv2.Stitcher_SCANS)
         (status, stitched) = stitcher.stitch(images)
     
         if status == 0:
