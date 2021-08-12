@@ -75,11 +75,18 @@ class Ui_MainWindow(object):
             image = cv2.imread(imagePath)
             image = imutils.rotate_bound(image, 90)
             images.append(image)
+        print(len(images))
 
         self.listWidget.addItem("[INFO] stitching images...")
         #stitcher = cv2.createStitcher() if imutils.is_cv3() else cv2.Stitcher_create()
-        stitcher = cv2.Stitcher_create(mode=cv2.Stitcher_SCANS)
-        (status, stitched) = stitcher.stitch(images)
+
+        while len(images)>1:
+            print(len(images))
+            stitcher = cv2.Stitcher_create(mode=cv2.Stitcher_SCANS)
+            (status, stitched) = stitcher.stitch(images[0:2])
+            print("Test")
+            images[1]=stitched
+            images.pop(0)
     
         if status == 0:
             stitched = imutils.rotate_bound(stitched, 270)
