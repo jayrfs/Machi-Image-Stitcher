@@ -1,0 +1,5 @@
+#ignore input and output
+/input
+/output
+*.png
+*.jpg
