@@ -53,7 +53,7 @@ class Ui_MainWindow(object):
         self.ClearBtn.setText(_translate("MainWindow", "Clear"))
 
     def getFolder(self):
-        OutputFolder, _ = QtWidgets.QFileDialog.getOpenFileName(None, "Select Images", "", "Image Files (*.png *.jpg *.jpeg *.bmp)")
+        OutputFolder, _ = QtWidgets.QFileDialog.getOpenFileNames(None, "Select Images", "", "Image Files (*.png *.jpg *.jpeg *.bmp)")
         self.listWidget.addItem(OutputFolder)
 
     def clearScreen(self):
