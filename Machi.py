@@ -68,8 +68,20 @@ class Ui_MainWindow(object):
         for item in selectedItems:
             imagePaths.append(item.text())
         imagePaths = sorted(list(imagePaths))
+        print("\nbefore split\n")
+        for i in imagePaths:
+            print(i)
+
+        if len(imagePaths)>2:
+                    chunks = [imagePaths[x:x+10] for x in range(0, len(imagePaths), 10)]
+                    print("\n\n\n")
+                    for chunk in chunks:
+                        print("\nchunk\n")
+                        for img in chunk:
+                            print(img)
 
         images = []
+        countter=0
 
         for imagePath in imagePaths:
             image = cv2.imread(imagePath)
