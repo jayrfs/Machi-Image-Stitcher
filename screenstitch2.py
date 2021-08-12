@@ -54,7 +54,8 @@ class Ui_MainWindow(object):
 
     def getFolder(self):
         OutputFolder, _ = QtWidgets.QFileDialog.getOpenFileNames(None, "Select Images", "", "Image Files (*.png *.jpg *.jpeg *.bmp)")
-        self.listWidget.addItem(OutputFolder)
+        for i in OutputFolder:
+            self.listWidget.addItem(i)
 
     def clearScreen(self):
         self.listWidget.clear()
