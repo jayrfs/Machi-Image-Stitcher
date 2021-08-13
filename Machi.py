@@ -81,6 +81,11 @@ class Ui_MainWindow(object):
                         print("\nchunk\n")
                         for img in chunk:
                             print(img)
+        else:
+            chunks = []
+            chunkHolder = []
+            #chunkHolder.append(imagePaths)
+            chunks.append(imagePaths)
 
         images = []
         countter=0
@@ -97,7 +102,7 @@ class Ui_MainWindow(object):
             self.listWidget.addItem("[INFO] stitching images...")
             #stitcher = cv2.createStitcher() if imutils.is_cv3() else cv2.Stitcher_create()
 
-            while len(images)>1:
+            while len(images)>2:
                 print(len(images))
                 stitcher = cv2.Stitcher_create(mode=cv2.Stitcher_SCANS)
                 (status, stitched) = stitcher.stitch(images[0:2])
