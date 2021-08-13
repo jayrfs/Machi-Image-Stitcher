@@ -137,6 +137,8 @@ class Ui_MainWindow(object):
                 self.listWidget.addItem("[INFO] image stitching failed: not enough keypoints (2)")  
             else:
                 self.listWidget.addItem("[INFO] image stitching failed: camera error (3)")
+        print("doneeeee")
+
 
 
 if __name__ == "__main__":
