@@ -89,6 +89,7 @@ class Ui_MainWindow(object):
 
         images = []
         countter=0
+        countter2=0
         
         for chunk in chunks:
             countter = countter + 1
@@ -104,11 +105,14 @@ class Ui_MainWindow(object):
 
             while len(images)>2:
                 print(len(images))
+                countter2 += 1
                 stitcher = cv2.Stitcher_create(mode=cv2.Stitcher_SCANS)
                 (status, stitched) = stitcher.stitch(images[0:2])
                 print("Test")
                 images[1]=stitched
-                images.pop(0)
+                if len(images)>1:
+                    print(f"image :{countter2}")
+                    images.pop(0)
 
             if len(images)==1:
                 print("no more images left!")
